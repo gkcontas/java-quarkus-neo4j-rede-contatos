@@ -1,0 +1,23 @@
+package com.gkcontas.network.exception;
+
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
+
+@Provider
+public class IllegalArgumentExceptionMapper implements ExceptionMapper<IllegalArgumentException> {
+
+    @Override
+    public Response toResponse(IllegalArgumentException exception) {
+        ErrorResponse body = ErrorResponse.of(
+                Response.Status.BAD_REQUEST.getStatusCode(),
+                "Invalid request",
+                exception.getMessage()
+        );
+        return Response.status(Response.Status.BAD_REQUEST)
+                .type(MediaType.APPLICATION_JSON)
+                .entity(body)
+                .build();
+    }
+}
